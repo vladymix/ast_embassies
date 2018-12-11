@@ -1,0 +1,55 @@
+package com.altamirano.fabricio.embassies.activities;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.altamirano.fabricio.embassies.R;
+import com.altamirano.fabricio.embassies.commons.LastSearch;
+import com.altamirano.fabricio.embassies.database.EmbassiesSqlite;
+
+import java.util.Calendar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class FragmentSearch extends Fragment {
+
+    @BindView(R.id.ed_lat)
+    EditText ed_lat;
+    @BindView(R.id.ed_lon)
+    EditText ed_lon;
+
+
+    public FragmentSearch(){}
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        ButterKnife.bind(this,view);
+        return view;
+    }
+
+    @OnClick(R.id.btn_search)
+    public void onSearch() {
+        try{
+            LastSearch item = new LastSearch();
+            item.setLon(Double.parseDouble(ed_lon.getText().toString()));
+            item.setLat(Double.parseDouble(ed_lat.getText().toString()));
+            item.setDate(Calendar.getInstance().getTime());
+            EmbassiesSqlite dataBase = EmbassiesSqlite.getInstance(getContext());
+            dataBase.insert(item);
+            Toast.makeText(this.getContext(),"Añadida correctamente",Toast.LENGTH_LONG).show();
+        }catch (Exception ex){
+            Toast.makeText(this.getContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
+        }
+
+    }
+}
