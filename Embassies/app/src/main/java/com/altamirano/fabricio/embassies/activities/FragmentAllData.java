@@ -1,0 +1,90 @@
+package com.altamirano.fabricio.embassies.activities;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import com.altamirano.fabricio.embassies.R;
+import com.altamirano.fabricio.embassies.adapters.ResultAdapter;
+import com.altamirano.fabricio.embassies.commons.EmbajadasConsulados;
+import com.altamirano.fabricio.embassies.commons.LastSearch;
+import com.altamirano.fabricio.embassies.commons.Result;
+import com.altamirano.fabricio.embassies.database.EmbassiesSqlite;
+import com.altamirano.fabricio.embassies.services.ServiceApi;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class FragmentAllData extends Fragment implements Callback<EmbajadasConsulados> {
+
+    ResultAdapter adapter;
+    ArrayList<Result> results= new ArrayList<>();
+
+    public FragmentAllData(){
+        // need
+    }
+
+    @BindView(R.id.empty)
+    LinearLayout empty;
+    @BindView(R.id.listHistory)
+    ListView listHistory;
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ServiceApi.getAllData(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        ButterKnife.bind(this, view);
+        this.listHistory.setEmptyView(this.empty);
+        this.adapter =new ResultAdapter(this.getContext(), results);
+        this.listHistory.setAdapter(adapter);
+        return view;
+    }
+
+    @Override
+    public void onResponse(Call<EmbajadasConsulados> call, Response<EmbajadasConsulados> response) {
+        if(response!=null && response.body()!=null && response.body().graph!=null){
+            results.clear();
+            results.addAll(response.body().graph);
+            this.adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onFailure(Call<EmbajadasConsulados> call, Throwable t) {
+
+    }
+
+    @OnItemClick(R.id.listHistory)
+    public void onItemClick(int i){
+        Result item = this.adapter.getItem(i);
+        EmbassiesSqlite dataBase = EmbassiesSqlite.getInstance(getContext());
+        LastSearch lastSearch = new LastSearch();
+        lastSearch.set_id(Integer.valueOf(item.getId()));
+        lastSearch.setTitle(item.getTitle());
+        lastSearch.setLocality(item.getAddress().getLocality());
+        lastSearch.setStreetaddress(item.getAddress().getStreetaddress());
+
+        lastSearch.setLat(item.getLocation().getLatitude());
+        lastSearch.setLon(item.getLocation().getLongitude());
+
+        dataBase.upsert(lastSearch);
+    }
+}

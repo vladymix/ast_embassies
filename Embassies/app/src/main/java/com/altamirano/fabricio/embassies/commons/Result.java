@@ -88,10 +88,17 @@ public class Result {
     }
 
     public class Address {
+
+        @SerializedName("area")
         Area AreaObject;
+
+        @SerializedName("district")
         District DistrictObject;
+
         private String locality;
+        @SerializedName("postal-code")
         private String postalcode;
+        @SerializedName("street-address")
         private String streetaddress;
 
 
@@ -143,14 +150,10 @@ public class Result {
     public class Area {
         @SerializedName("@id")
         String id;
-
-
         // Getter Methods
-
         public String getid() {
             return id;
         }
-
         // Setter Methods
 
         public void setid(String id) {
@@ -177,8 +180,6 @@ public class Result {
     public class Location {
         private float latitude;
         private float longitude;
-
-
         // Getter Methods
 
         public float getLatitude() {

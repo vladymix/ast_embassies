@@ -4,9 +4,15 @@ import java.util.Date;
 
 public class LastSearch {
     private int _id;
-    private Date date;
+    private  Date date;
     private double lon;
     private double lat;
+    private String streetaddress;
+    private String locality;
+    private String title;
+
+    public LastSearch() {
+    }
 
     public Date getDate() {
         return date;
@@ -16,8 +22,20 @@ public class LastSearch {
         return lat;
     }
 
+    public String getLocality() {
+        return locality;
+    }
+
     public double getLon() {
         return lon;
+    }
+
+    public String getStreetaddress() {
+        return streetaddress;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public int get_id() {
@@ -32,8 +50,20 @@ public class LastSearch {
         this.lat = lat;
     }
 
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
     public void setLon(double lon) {
         this.lon = lon;
+    }
+
+    public void setStreetaddress(String streetaddress) {
+        this.streetaddress = streetaddress;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void set_id(int _id) {

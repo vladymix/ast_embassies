@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -25,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText("Home");
+                    Fragment fragmentall = new FragmentAllData();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_content, fragmentall).commit();
                     return true;
                 case R.id.navigation_dashboard:
                     Fragment fragmentSearch = new FragmentSearch();
@@ -46,10 +47,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTextMessage = findViewById(R.id.message);
-        mTextMessage.setVisibility(View.GONE);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         this.fragmentManager = getSupportFragmentManager();
+
     }
 }

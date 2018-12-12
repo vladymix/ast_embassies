@@ -70,12 +70,7 @@ public class EmbassiesSqlite {
             Cursor cr = this.db.rawQuery("Select * from " + Table_LastSearch.TABLE_NAME, null);
             if (cr != null && cr.moveToNext()) {
                 do {
-                    LastSearch item = new LastSearch();
-                    item.set_id(cr.getInt(0));
-                    item.setDate(this.getDateFromSql(cr.getString(1)));
-                    item.setLat(cr.getDouble(2));
-                    item.setLon(cr.getDouble(3));
-                    result.add(item);
+                    result.add(Table_LastSearch.getFromCursor(cr));
                 } while (cr.moveToNext());
             }
         } catch (Exception ex) {
@@ -87,11 +82,48 @@ public class EmbassiesSqlite {
     public void insert(LastSearch search) {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
+        values.put(Table_LastSearch.ID, search.get_id());
+
         values.put(Table_LastSearch.LAT, search.getLat());
         values.put(Table_LastSearch.LON, search.getLon());
         values.put(Table_LastSearch.DATE, this.getDateToSql(search.getDate()));
+
+        values.put(Table_LastSearch.Title, search.getTitle());
+        values.put(Table_LastSearch.Locality, search.getLocality());
+        values.put(Table_LastSearch.Streetaddress, search.getStreetaddress());
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(Table_LastSearch.TABLE_NAME, null, values);
         search.set_id((int) newRowId);
+    }
+
+    public void update(LastSearch search) {
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(Table_LastSearch.ID, search.get_id());
+
+        values.put(Table_LastSearch.LAT, search.getLat());
+        values.put(Table_LastSearch.LON, search.getLon());
+        values.put(Table_LastSearch.DATE, this.getDateToSql(search.getDate()));
+
+        values.put(Table_LastSearch.Title, search.getTitle());
+        values.put(Table_LastSearch.Locality, search.getLocality());
+        values.put(Table_LastSearch.Streetaddress, search.getStreetaddress());
+
+        // Insert the new row, returning the primary key value of the new row
+        String whereClause="_id="+search.get_id();
+        long newRowId = db.update(Table_LastSearch.TABLE_NAME, values,whereClause, null);
+        search.set_id((int) newRowId);
+    }
+
+    public void upsert(LastSearch lastSearch) {
+
+        Cursor cr = this.db.rawQuery("Select * from " + Table_LastSearch.TABLE_NAME +" WHERE _id="+lastSearch.get_id(), null);
+        if (cr != null && cr.moveToNext()) {
+            LastSearch item= Table_LastSearch.getFromCursor(cr);
+            lastSearch.set_id(item.get_id());
+            this.update(lastSearch);
+        }else{
+            this.insert(lastSearch);
+        }
     }
 }

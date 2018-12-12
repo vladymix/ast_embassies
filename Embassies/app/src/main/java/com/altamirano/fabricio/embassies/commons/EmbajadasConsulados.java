@@ -10,7 +10,7 @@ public class EmbajadasConsulados {
     com.altamirano.fabricio.embassies.commons.Context context;
 
     @SerializedName("@graph")
-    ArrayList<Result> graph = new ArrayList<Result>();
+    public ArrayList<Result> graph = new ArrayList<Result>();
 
     // Getter Methods
     public Context getContext() {
@@ -18,7 +18,6 @@ public class EmbajadasConsulados {
     }
 
     // Setter Methods
-
     public void setcontext(Context contextObject) {
         this.context = contextObject;
     }

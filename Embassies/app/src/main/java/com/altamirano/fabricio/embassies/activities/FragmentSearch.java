@@ -99,21 +99,4 @@ public class FragmentSearch extends Fragment implements Callback<EmbajadasConsul
         Call<EmbajadasConsulados> call = restClient.loadData();
         call.enqueue(this);
     }
-        /*call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                EmbajadasConsulados gsonparse = gson.fromJson(response.body().toString(), EmbajadasConsulados.class);
-                if(gsonparse!=null){
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
-    }*/
 }

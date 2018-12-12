@@ -20,20 +20,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/tv_date"
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textStyle="bold"
-            android:text="Martes 11 Dic"/>
+            android:text="Consulado Embajada"/>
         <TextView
-            android:id="@+id/tv_lat"
+            android:id="@+id/tv_location"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="12.134234234"/>
+            android:text="Madrid"/>
         <TextView
-            android:id="@+id/tv_lon"
+            android:id="@+id/tv_street"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="12.134234234"/>
+            android:text="Street"/>
     </LinearLayout>
 </RelativeLayout>
