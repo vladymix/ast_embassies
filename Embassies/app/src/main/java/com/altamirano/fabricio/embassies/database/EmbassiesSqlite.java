@@ -28,33 +28,8 @@ public class EmbassiesSqlite {
         return ctx;
     }
 
-    public void setCtx(Context ctx) {
+    private void setCtx(Context ctx) {
         this.ctx = ctx;
-    }
-
-    public Date getDateFromSql(String date) {
-
-        if (date == null || date.length()==0) {
-            return null;
-        }
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-            Date d = sdf.parse(date);
-            return d;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-
-    }
-
-    public String getDateToSql(Date date) {
-        if (date == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-        return sdf.format(date);
     }
 
     public static EmbassiesSqlite getInstance(Context ctx) {
@@ -79,7 +54,44 @@ public class EmbassiesSqlite {
         return result;
     }
 
-    public void insert(LastSearch search) {
+    public void upsert(LastSearch lastSearch) {
+
+        Cursor cr = this.db.rawQuery("Select * from " + Table_LastSearch.TABLE_NAME + " WHERE _id=" + lastSearch.get_id(), null);
+        if (cr != null && cr.moveToNext()) {
+            LastSearch item = Table_LastSearch.getFromCursor(cr);
+            lastSearch.set_id(item.get_id());
+            this.update(lastSearch);
+        } else {
+            this.insert(lastSearch);
+        }
+    }
+
+    private Date getDateFromSql(String date) {
+
+        if (date == null || date.length() == 0) {
+            return null;
+        }
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            Date d = sdf.parse(date);
+            return d;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+
+    }
+
+    private String getDateToSql(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        return sdf.format(date);
+    }
+
+    private void insert(LastSearch search) {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(Table_LastSearch.ID, search.get_id());
@@ -96,7 +108,7 @@ public class EmbassiesSqlite {
         search.set_id((int) newRowId);
     }
 
-    public void update(LastSearch search) {
+    private void update(LastSearch search) {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(Table_LastSearch.ID, search.get_id());
@@ -110,20 +122,8 @@ public class EmbassiesSqlite {
         values.put(Table_LastSearch.Streetaddress, search.getStreetaddress());
 
         // Insert the new row, returning the primary key value of the new row
-        String whereClause="_id="+search.get_id();
-        long newRowId = db.update(Table_LastSearch.TABLE_NAME, values,whereClause, null);
+        String whereClause = "_id=" + search.get_id();
+        long newRowId = db.update(Table_LastSearch.TABLE_NAME, values, whereClause, null);
         search.set_id((int) newRowId);
-    }
-
-    public void upsert(LastSearch lastSearch) {
-
-        Cursor cr = this.db.rawQuery("Select * from " + Table_LastSearch.TABLE_NAME +" WHERE _id="+lastSearch.get_id(), null);
-        if (cr != null && cr.moveToNext()) {
-            LastSearch item= Table_LastSearch.getFromCursor(cr);
-            lastSearch.set_id(item.get_id());
-            this.update(lastSearch);
-        }else{
-            this.insert(lastSearch);
-        }
     }
 }

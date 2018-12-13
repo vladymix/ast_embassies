@@ -72,9 +72,6 @@ public class FragmentSearch extends Fragment implements Callback<EmbajadasConsul
             item.setLon(Double.parseDouble(ed_lon.getText().toString()));
             item.setLat(Double.parseDouble(ed_lat.getText().toString()));
             item.setDate(Calendar.getInstance().getTime());
-            EmbassiesSqlite dataBase = EmbassiesSqlite.getInstance(getContext());
-            dataBase.insert(item);
-            callerApi();
             Toast.makeText(this.getContext(),"Añadida correctamente",Toast.LENGTH_LONG).show();
         }catch (Exception ex){
             Toast.makeText(this.getContext(),ex.getMessage(),Toast.LENGTH_LONG).show();

@@ -16,12 +16,13 @@ import com.altamirano.fabricio.embassies.R;
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            FragmentTransaction fragmentTransaction;
+
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     Fragment fragmentall = new FragmentAllData();
@@ -47,9 +48,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.fragmentManager = getSupportFragmentManager();
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        this.fragmentManager = getSupportFragmentManager();
+        navigation.setSelectedItemId(R.id.navigation_home);
+
 
     }
 }
