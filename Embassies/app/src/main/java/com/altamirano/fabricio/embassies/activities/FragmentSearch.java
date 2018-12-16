@@ -9,25 +9,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.altamirano.fabricio.embassies.R;
-import com.altamirano.fabricio.embassies.commons.EmbajadasAPI;
+import com.altamirano.fabricio.embassies.services.EmbajadasAPI;
 import com.altamirano.fabricio.embassies.commons.EmbajadasConsulados;
 import com.altamirano.fabricio.embassies.commons.LastSearch;
-import com.altamirano.fabricio.embassies.database.EmbassiesSqlite;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

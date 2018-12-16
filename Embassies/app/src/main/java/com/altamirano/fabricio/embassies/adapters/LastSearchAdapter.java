@@ -33,7 +33,7 @@ public class LastSearchAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public LastSearch getItem(int i) {
         return source.get(i);
     }
 
@@ -77,9 +77,8 @@ public class LastSearchAdapter extends BaseAdapter {
         public void setData(LastSearch item){
             if(item!=null){
                 tv_date.setText(item.getTitle());
-
-                tv_lat.setText(String.valueOf(item.getLat()));
-                tv_lon.setText(String.valueOf(item.getLon()));
+                tv_lat.setText(getDatePreview(item.getDate()));
+                tv_lon.setText(item.getStreetaddress());
 
                 if(item.getTitle().toLowerCase().contains("consulado")){
                     image_type.setImageResource(R.drawable.ic_consulado);
@@ -93,7 +92,7 @@ public class LastSearchAdapter extends BaseAdapter {
             if(date==null){
                 return "";
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE d MMM - HH:mm.ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm.ss");
             String dateString = sdf.format(date);
             return dateString.toUpperCase();
         }

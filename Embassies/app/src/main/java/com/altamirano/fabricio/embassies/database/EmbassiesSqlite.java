@@ -42,11 +42,12 @@ public class EmbassiesSqlite {
     public ArrayList<LastSearch> getLastSearchs() {
         ArrayList<LastSearch> result = new ArrayList<>();
         try {
-            Cursor cr = this.db.rawQuery("Select * from " + Table_LastSearch.TABLE_NAME, null);
+            Cursor cr = this.db.rawQuery("Select * from " + Table_LastSearch.TABLE_NAME+" ORDER BY "+Table_LastSearch.DATE +" DESC ", null);
             if (cr != null && cr.moveToNext()) {
                 do {
                     result.add(Table_LastSearch.getFromCursor(cr));
                 } while (cr.moveToNext());
+                cr.close();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -61,6 +62,7 @@ public class EmbassiesSqlite {
             LastSearch item = Table_LastSearch.getFromCursor(cr);
             lastSearch.set_id(item.get_id());
             this.update(lastSearch);
+            cr.close();
         } else {
             this.insert(lastSearch);
         }

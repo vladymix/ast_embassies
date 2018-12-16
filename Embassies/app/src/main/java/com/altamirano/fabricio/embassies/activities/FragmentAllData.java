@@ -1,6 +1,8 @@
 package com.altamirano.fabricio.embassies.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.altamirano.fabricio.embassies.database.EmbassiesSqlite;
 import com.altamirano.fabricio.embassies.services.ServiceApi;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +52,7 @@ public class FragmentAllData extends Fragment implements Callback<EmbajadasConsu
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
@@ -62,7 +65,6 @@ public class FragmentAllData extends Fragment implements Callback<EmbajadasConsu
 
     @Override
     public void onFailure(Call<EmbajadasConsulados> call, Throwable t) {
-
         try {
             Toast.makeText(this.getContext(), "Error de conexion", Toast.LENGTH_LONG).show();
         } catch (Exception ignore) {
@@ -79,10 +81,17 @@ public class FragmentAllData extends Fragment implements Callback<EmbajadasConsu
         lastSearch.setLocality(item.getAddress().getLocality());
         lastSearch.setStreetaddress(item.getAddress().getStreetaddress());
 
-        lastSearch.setLat(item.getLocation().getLatitude());
-        lastSearch.setLon(item.getLocation().getLongitude());
+        if(item.getLocation()!=null){
+            lastSearch.setLat(item.getLocation().getLatitude());
+            lastSearch.setLon(item.getLocation().getLongitude());
+        }
+
+        lastSearch.setDate(Calendar.getInstance().getTime());
 
         dataBase.upsert(lastSearch);
+        Intent intent = new Intent(this.getActivity(), MapsActivity.class);
+        intent.putExtra("LastSearch", lastSearch);
+        this.getActivity().startActivity(intent);
     }
 
     @Override
@@ -91,6 +100,15 @@ public class FragmentAllData extends Fragment implements Callback<EmbajadasConsu
             results.clear();
             results.addAll(response.body().graph);
             this.adapter.notifyDataSetChanged();
+           /* for(int i=0; i< results.size();i++){
+                // Save all
+                this.onItemClick(i);
+            }*/
         }
+    }
+
+    public void filterResults(String textToSearch){
+        this.adapter.getFilter().filter(textToSearch);
+        this.adapter.notifyDataSetChanged();
     }
 }

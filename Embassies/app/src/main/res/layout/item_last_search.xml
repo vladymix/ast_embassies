@@ -24,16 +24,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textStyle="bold"
-            android:text="Martes 11 Dic"/>
+            android:text="Embajada"/>
         <TextView
             android:id="@+id/tv_lat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="12.134234234"/>
+            android:text="12-dic-2018 21:00:56"/>
         <TextView
             android:id="@+id/tv_lon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="12.134234234"/>
+            android:text="Calle francisco"/>
     </LinearLayout>
 </RelativeLayout>

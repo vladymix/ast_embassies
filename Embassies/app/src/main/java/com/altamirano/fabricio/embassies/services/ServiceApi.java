@@ -1,6 +1,5 @@
 package com.altamirano.fabricio.embassies.services;
 
-import com.altamirano.fabricio.embassies.commons.EmbajadasAPI;
 import com.altamirano.fabricio.embassies.commons.EmbajadasConsulados;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;

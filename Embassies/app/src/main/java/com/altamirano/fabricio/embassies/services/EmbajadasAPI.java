@@ -1,5 +1,6 @@
-package com.altamirano.fabricio.embassies.commons;
+package com.altamirano.fabricio.embassies.services;
 
+import com.altamirano.fabricio.embassies.commons.EmbajadasConsulados;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;

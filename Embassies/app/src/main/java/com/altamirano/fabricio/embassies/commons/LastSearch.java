@@ -1,8 +1,9 @@
 package com.altamirano.fabricio.embassies.commons;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class LastSearch {
+public class LastSearch implements Serializable {
     private int _id;
     private  Date date;
     private double lon;
