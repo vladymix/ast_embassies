@@ -27,7 +27,7 @@ public class ResultAdapter extends BaseAdapter implements Filterable {
 
     public ResultAdapter(Context ctx, List<Result> source) {
         this.source = source;
-        this.mDisplayedItems.addAll(source);
+        this.mDisplayedItems = source;
         this.inflater = LayoutInflater.from(ctx);
     }
 
@@ -70,8 +70,7 @@ public class ResultAdapter extends BaseAdapter implements Filterable {
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 try {
-                    mDisplayedItems.clear();
-                    mDisplayedItems.addAll((ArrayList<Result>) filterResults.values);
+                    mDisplayedItems = (ArrayList<Result>) filterResults.values;
                     notifyDataSetChanged();
                 } catch (Exception ignore) {
                 }

@@ -2,7 +2,6 @@ package com.altamirano.fabricio.embassies.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,15 +13,14 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.altamirano.fabricio.embassies.R;
 
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
-    Fragment fragmentall;
+    private Fragment currentFragment;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -31,19 +29,19 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    fragmentall = new FragmentAllData();
+                    currentFragment = new FragmentAllData();
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_content, fragmentall).commit();
+                    fragmentTransaction.replace(R.id.fragment_content, currentFragment).commit();
                     return true;
                 case R.id.navigation_dashboard:
-                    Fragment fragmentSearch = new FragmentSearch();
+                    currentFragment = new FragmentSearch();
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_content, fragmentSearch).commit();
+                    fragmentTransaction.replace(R.id.fragment_content, currentFragment).commit();
                     return true;
                 case R.id.navigation_notifications:
-                    Fragment fragment = new FragmentHistory();
+                    currentFragment = new FragmentHistory();
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_content, fragment).commit();
+                    fragmentTransaction.replace(R.id.fragment_content, currentFragment).commit();
                     return true;
             }
             return false;
@@ -83,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if(fragmentall instanceof FragmentAllData){
-                    ((FragmentAllData)fragmentall).filterResults(s);
+                if(currentFragment instanceof FragmentAllData){
+                    ((FragmentAllData) currentFragment).filterResults(s);
                 }
                 return false;
             }

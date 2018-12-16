@@ -37,8 +37,8 @@ public class Table_LastSearch {
         item.setStreetaddress(cr.getString(2));
         item.setLocality(cr.getString(3));
         item.setTitle(cr.getString(4));
-        item.setLat(cr.getDouble(6));
         item.setLon(cr.getDouble(5));
+        item.setLat(cr.getDouble(6));
         return item;
     }
 
